@@ -1,6 +1,6 @@
 {
   "name": "secure-json-logic",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Use logic-objects from uncertain sources and run them locally without breaking the own system",
   "main": "index.js",
   "scripts": {
