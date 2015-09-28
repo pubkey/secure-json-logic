@@ -16,7 +16,7 @@ Example usage is in the [example.js](https://github.com/danielsun174/secure-json
 
 
 # usage
-`
+```
 SecureJSONLogic=require('./index.js');
 
 var allowedVars = [
@@ -115,4 +115,4 @@ console.log('###########################');
 console.log('### result for testInput: ###');
 console.log(f(testInput)+'   <- this should be true');
 console.log('###########################');
-`
+```
