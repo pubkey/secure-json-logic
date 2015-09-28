@@ -9,13 +9,13 @@ module.exports = (function SecureJSONLogic() {
     var self = this;
 
 
-    var logicMethods={
+    var logicMethods = {
         /**
          * '=='
          * @param {Array.<{name: String, name: String}>} params array with param-objects, length=2
          * @param {{}} allowedVars
          */
-        equals: function(params,allowedVars){
+        equals: function (params, allowedVars) {
             if (params.length == 2 &&
                 self._paramParse(params[0], allowedVars) &&
                 self._paramParse(params[1], allowedVars)
@@ -30,12 +30,12 @@ module.exports = (function SecureJSONLogic() {
          * @param {Array.<{name: String, name: String}>} params array with param-objects, length=2
          * @param {{}} allowedVars
          */
-        startswith: function(params,allowedVars){
+        startswith: function (params, allowedVars) {
             if (params.length == 2 &&
                 self._paramParse(params[0], allowedVars) &&
                 self._paramParse(params[1], allowedVars)
             ) {
-                return self._paramParse(params[0], allowedVars)+'.indexOf('+self._paramParse(params[1], allowedVars)+') === 0';
+                return self._paramParse(params[0], allowedVars) + '.indexOf(' + self._paramParse(params[1], allowedVars) + ') === 0';
             } else {
                 return 'false';
             }
@@ -45,15 +45,15 @@ module.exports = (function SecureJSONLogic() {
          * @param {Array.<{name: String, name: String}>} params array with param-objects, length=2
          * @param {{}} allowedVars
          */
-        endswith: function(params,allowedVars){
+        endswith: function (params, allowedVars) {
             if (params.length == 2 &&
                 self._paramParse(params[0], allowedVars) &&
                 self._paramParse(params[1], allowedVars)
             ) {
-                return self._paramParse(params[0], allowedVars)+'' +
-                    '.substring('+self._paramParse(params[0], allowedVars)+'.length' +
-                    ' - '+self._paramParse(params[1], allowedVars)+'.length,' +
-                    ' '+self._paramParse(params[0], allowedVars)+'.length'+') === '+self._paramParse(params[1],allowedVars);
+                return self._paramParse(params[0], allowedVars) + '' +
+                    '.substring(' + self._paramParse(params[0], allowedVars) + '.length' +
+                    ' - ' + self._paramParse(params[1], allowedVars) + '.length,' +
+                    ' ' + self._paramParse(params[0], allowedVars) + '.length' + ') === ' + self._paramParse(params[1], allowedVars);
             } else {
                 return 'false';
             }
@@ -122,9 +122,9 @@ module.exports = (function SecureJSONLogic() {
             default:
 
 
-                if(logicMethods[logikObj.fkt]){
-                    ret+=logicMethods[logikObj.fkt](logikObj.params,allowedVars);
-                }else{
+                if (logicMethods[logikObj.fkt]) {
+                    ret += logicMethods[logikObj.fkt](logikObj.params, allowedVars);
+                } else {
                     return 'false';
                 }
                 break;
@@ -157,7 +157,7 @@ module.exports = (function SecureJSONLogic() {
             console.error('cant build logic-function of given logic-object');
             console.dir(e);
             var stack = new Error().stack;
-            console.log( stack );
+            console.log(stack);
             console.log('++++++++++++++++++++++++++++++');
             console.log(evalCode);
             process.exit(1);
