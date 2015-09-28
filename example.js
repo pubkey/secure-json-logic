@@ -32,106 +32,34 @@ var testLogicObject= {
             ]
         },
         {
-            "fkt": 'equals',
+            "fkt": 'AND',
             params: [
                 {
-                    type: 'string',
-                    name: 'www.amazon.de'
+                    "fkt": 'startswith',
+                    params: [
+
+                        {
+                            type: 'var',
+                            name: 'u.hostname'
+                        },
+                        {
+                            type: 'string',
+                            name: 'www.'
+                        }
+                    ]
                 },
                 {
-                    type: 'var',
-                    name: 'u.hostname'
-                }
-            ]
-        },
-        {
-            "fkt": 'equals',
-            params: [
-                {
-                    type: 'string',
-                    name: 'www.amazon.co.uk'
-                },
-                {
-                    type: 'var',
-                    name: 'u.hostname'
-                }
-            ]
-        },
-        {
-            "fkt": 'equals',
-            params: [
-                {
-                    type: 'string',
-                    name: 'www.amazon.fr'
-                },
-                {
-                    type: 'var',
-                    name: 'u.hostname'
-                }
-            ]
-        },
-        {
-            "fkt": 'equals',
-            params: [
-                {
-                    type: 'string',
-                    name: 'www.amazon.es'
-                },
-                {
-                    type: 'var',
-                    name: 'u.hostname'
-                }
-            ]
-        },
-        {
-            "fkt": 'equals',
-            params: [
-                {
-                    type: 'string',
-                    name: 'www.amazon.it'
-                },
-                {
-                    type: 'var',
-                    name: 'u.hostname'
-                }
-            ]
-        },
-        {
-            "fkt": 'equals',
-            params: [
-                {
-                    type: 'string',
-                    name: 'www.amazon.cn'
-                },
-                {
-                    type: 'var',
-                    name: 'u.hostname'
-                }
-            ]
-        },
-        {
-            "fkt": 'equals',
-            params: [
-                {
-                    type: 'string',
-                    name: 'www.amazon.ca'
-                },
-                {
-                    type: 'var',
-                    name: 'u.hostname'
-                }
-            ]
-        },
-        {
-            "fkt": 'equals',
-            params: [
-                {
-                    type: 'string',
-                    name: 'www.amazon.co.jp'
-                },
-                {
-                    type: 'var',
-                    name: 'u.hostname'
+                    "fkt": 'endswith',
+                    params: [
+                        {
+                            type: 'var',
+                            name: 'u.hostname'
+                        },
+                        {
+                            type: 'string',
+                            name: '.com'
+                        }
+                    ]
                 }
             ]
         }
@@ -140,7 +68,7 @@ var testLogicObject= {
 
 var testInput={
     u:{
-        hostname: 'www.amazon.de'
+        hostname: 'www.amazon.com'
     }
 };
 
