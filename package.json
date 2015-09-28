@@ -1,0 +1,20 @@
+{
+  "name": "secure-json-logic",
+  "version": "0.9.1",
+  "description": "Use logic-objects from uncertain sources and run them locally without breaking the own system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielsun174/secure-json-logic.git"
+  },
+  "keywords": [
+    "json",
+    "logic",
+    "secure"
+  ],
+  "author": "danielsun174",
+  "license": "BSD-2-Clause"
+}
