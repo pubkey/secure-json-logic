@@ -15,7 +15,7 @@ module.exports = (function SecureJSONLogic() {
          * @param {Array.<{name: String, name: String}>} params array with param-objects, length=2
          * @param {{}} allowedVars
          */
-        equals: function (params, allowedVars) {
+        "==": function (params, allowedVars) {
             if (params.length == 2 &&
                 self._paramParse(params[0], allowedVars) &&
                 self._paramParse(params[1], allowedVars)
@@ -52,7 +52,7 @@ module.exports = (function SecureJSONLogic() {
             ) {
                 return self._paramParse(params[0], allowedVars) + '' +
                     '.substring(' + self._paramParse(params[0], allowedVars) + '.length' +
-                    ' - ' + self._paramParse(params[1], allowedVars) + '.length,' +
+                    '-' + self._paramParse(params[1], allowedVars) + '.length,' +
                     ' ' + self._paramParse(params[0], allowedVars) + '.length' + ') === ' + self._paramParse(params[1], allowedVars);
             } else {
                 return 'false';
@@ -69,18 +69,33 @@ module.exports = (function SecureJSONLogic() {
      */
     self._paramParse = function (param, allowedVars) {
         param.type = param.type.toLowerCase();
-        param.name = param.name.replace(/["']/g, '');
-        if (param.type == "string") {
-            return '"' + param.name + '"';
+        var isType = typeof param.name;
+
+        switch (param.type) {
+            case 'string':
+                if (isType === "string") {
+                    param.name = param.name.replace(/["']/g, '');
+                    return '"' + param.name + '"';
+                }
+                break;
+
+            case 'var':
+                if (isType === "string") {
+                    if (allowedVars.indexOf(param.name) > -1) {
+                        return 'i.' + param.name;
+                    } else {
+                        return false;
+                    }
+                }
+                break;
+
+            case 'number':
+                if (isType === "number") {
+                    return param.name;
+                }
+                break;
         }
 
-        if (param.type == "var") {
-            if (allowedVars.indexOf(param.name) > -1) {
-                return 'i.' + param.name;
-            } else {
-                return false;
-            }
-        }
         return false;
     };
 
@@ -99,7 +114,7 @@ module.exports = (function SecureJSONLogic() {
 
 
         switch (logikObj.fkt) {
-            case "AND":
+            case "&&":
                 var ands = [];
                 logikObj.params.forEach(function (lobj) {
                     var add = self._makeCode(lobj, allowedVars);
@@ -109,7 +124,7 @@ module.exports = (function SecureJSONLogic() {
                 });
                 ret += ands.join(' && ');
                 break;
-            case "OR":
+            case "||":
                 var ors = [];
                 logikObj.params.forEach(function (lobj) {
                     var add = self._makeCode(lobj, allowedVars);
@@ -146,11 +161,20 @@ module.exports = (function SecureJSONLogic() {
         var evalCode = 'returnFkt=' +
             'function(i){' +
             '   try{' +
-            '       if(' + logikString + '){return true;}else{return false;}' +
+            '       if(' + logikString + '){return true;}' +
             '   }catch(e){' +
-            '       return false;' +
+            '       ' +
             '   }' +
+            '   return false;'+
             '}';
+
+        //make function-code smaller
+        evalCode = evalCode.replace(/\s+/g, ' ');
+        evalCode = evalCode.replace(/\{ /g, '{');
+        evalCode = evalCode.replace(/\} /g, '}');
+        evalCode = evalCode.replace(/ && /g, '&&');
+        evalCode = evalCode.replace(/ \=\=\= /g, '===');
+        evalCode = evalCode.replace(/ \|\| /g, '||');
         try {
             eval(evalCode);
         } catch (e) {

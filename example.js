@@ -1,4 +1,4 @@
-SecureJSONLogic=require('./index.js');
+SecureJSONLogic = require('./index.js');
 
 var allowedVars = [
     'u.protocol',
@@ -12,14 +12,29 @@ var allowedVars = [
     'u.query',
     'u.pathname',
     'u.path',
-    'u.href'
+    'u.href',
+    'u.hostnameSplit',
+    'u.hostnameSplit.length'
 ];
 
-var testLogicObject= {
-    fkt: 'OR',
-        params: [
+var testLogicObject = {
+    fkt: '&&',
+    params: [
         {
-            fkt: 'equals',
+            fkt: '==',
+            params: [
+                {
+                    type: 'number',
+                    name: 3
+                },
+                {
+                    type: 'var',
+                    name: 'u.hostnameSplit.length'
+                }
+            ]
+        },
+        {
+            fkt: '==',
             params: [
                 {
                     type: 'string',
@@ -32,7 +47,7 @@ var testLogicObject= {
             ]
         },
         {
-            "fkt": 'AND',
+            "fkt": '||',
             params: [
                 {
                     "fkt": 'startswith',
@@ -66,19 +81,38 @@ var testLogicObject= {
     ]
 };
 
-var testInput={
-    u:{
-        hostname: 'www.amazon.com'
+var testInput = {
+    u: {
+        hostname: 'www.amazon.com',
+        hostnameSplit: [
+            'www',
+            'amazon',
+            'com'
+        ]
     }
 };
 
 
-var f=SecureJSONLogic(testLogicObject,allowedVars);
+console.log('## running example ##');
+
+console.time("renderTime");
+var f = SecureJSONLogic(testLogicObject, allowedVars);
+console.timeEnd("renderTime");
 
 console.log('### generated function: ###');
 console.log(f.toString());
-console.log('###########################');
+console.log('#############################');
 
 console.log('### result for testInput: ###');
-console.log(f(testInput)+'   <- this should be true');
-console.log('###########################');
+console.log(f(testInput) + '   <- this should be true');
+console.log('#############################');
+
+var c=5000000;
+console.log('### time measurement ( running '+c+' times) ###');
+console.time("exectime");
+while(c>0){
+    f(testInput);
+    c--;
+}
+console.timeEnd("exectime");
+console.log('#################################################');
