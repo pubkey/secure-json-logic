@@ -1,5 +1,7 @@
 SecureJSONLogic = require('./index.js');
 
+var url=require('url');
+
 var allowedVars = [
     'u.protocol',
     'u.slashes',
@@ -81,17 +83,15 @@ var testLogicObject = {
     ]
 };
 
-var testInput = {
-    u: {
-        hostname: 'www.amazon.com',
-        hostnameSplit: [
-            'www',
-            'amazon',
-            'com'
-        ]
-    }
+var testInputPositive = {
+    u: url.parse('http://www.amazon.com/foobar?foo=bar')
 };
+testInputPositive.u.hostnameSplit=testInputPositive.u.hostname.split('.');
 
+var testInputNegative = {
+    u: url.parse('http://www.anydomain.com/foobar?foo=bar')
+};
+testInputNegative.u.hostnameSplit=testInputNegative.u.hostname.split('.');
 
 console.log('## running example ##');
 
@@ -104,14 +104,15 @@ console.log(f.toString());
 console.log('#############################');
 
 console.log('### result for testInput: ###');
-console.log(f(testInput) + '   <- this should be true');
+console.log(f(testInputPositive) + '   <- this should be true');
+console.log(f(testInputNegative) + '   <- this should be false');
 console.log('#############################');
 
-var c=5000000;
-console.log('### time measurement ( running '+c+' times) ###');
+var c = 5000000;
+console.log('### time measurement ( running ' + c + ' times) ###');
 console.time("exectime");
-while(c>0){
-    f(testInput);
+while (c > 0) {
+    f(testInputPositive);
     c--;
 }
 console.timeEnd("exectime");
