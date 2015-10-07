@@ -16,7 +16,7 @@ Example usage is in the [example.js](https://github.com/danielsun174/secure-json
 
 
 # usage
-```
+```js
 SecureJSONLogic = require('secure-json-logic');
 
 var allowedVars = [
