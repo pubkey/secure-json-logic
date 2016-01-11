@@ -6,7 +6,7 @@
  */
 module.exports = (function SecureJSONLogic() {
 
-    var self = this;
+    var self = {};
 
 
     var logicMethods = {
