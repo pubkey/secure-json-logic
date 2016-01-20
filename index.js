@@ -4,7 +4,7 @@
  * @type function
  * @constructor
  */
-module.exports = (function SecureJSONLogic() {
+var SecureJSONLogic = (function SecureJSONLogic() {
 
     var self = {};
 
@@ -184,9 +184,18 @@ module.exports = (function SecureJSONLogic() {
             console.log(stack);
             console.log('++++++++++++++++++++++++++++++');
             console.log(evalCode);
-            process.exit(1);
+            //process.exit(1);
         }
         return returnFkt;
     };
     return self.makeFunction;
 })();
+
+
+if(typeof module!=="undefined"){
+    try{
+        module.exports=SecureJSONLogic;
+    }catch(e){}
+}else{
+    window.SecureJSONLogic=SecureJSONLogic;
+}
